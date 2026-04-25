@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vjjka=y_sp37c0k$77xqfb^*y)+ia5t9ltp0uml0=*l)1ogx4-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
 ]
+AUTH_USER_MODEL = 'users.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
+}
 
 ROOT_URLCONF = 'auth_service.urls'
 
@@ -76,10 +83,24 @@ WSGI_APPLICATION = 'auth_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME' : 'ms_auth_service',
+        'OPTIONS': {
+            'init_command': 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ',
+        },
+        'USER': 'root',
+        'PASSWORD': 'Admin@123',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
